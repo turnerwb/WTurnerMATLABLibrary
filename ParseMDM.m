@@ -1,16 +1,11 @@
-function ReadMDM(direc)
+function ParseMDM(file)
 %ReadMDM: Reads all '.mdm' files in the provided directory and saves the
 %extracted data to the workspace
 %   Reads all '.mdm' files in the provided directory and saves the
 %   extracted data to the workspace as matrices
 %   VARIABLES:
 %   direc - String, file path to folder containing .mdm files to be read
-files = dir(fullfile(direc,"*.mdm")); %Extract MDM Files
-for k=1:length(files) %For Every File in the Folder...
-    Name = files(k).name;%...Get the name...
-    FilePath = fullfile(direc, Name);%...Pull the File Path...
-    fileID = fopen(FilePath,'r'); %...Open the File...
-    %...Filter out the Header...
+
 %% Experimental Auto Processing:
 %Splitting Files
 test = textscan(fileID, 'BEGIN_DB','CollectOutput',1);
@@ -32,7 +27,7 @@ test = textscan(fileID, 'BEGIN_DB','CollectOutput',1);
     end
     %% 
 %%
-    temp = textscan(fileID,'%f %f %f %f %f %f %f %f %f %f','HeaderLines',4,'CollectOutput',1);
+    temp = textscan(fileID,'%f %f %f %f %f %f %f %f %f','HeaderLines',15,'CollectOutput',1);
     fclose(fileID);%...Close File...%
     %...Strip the '.mdm' from the name for MATLAB usability...
     NameNoExtension = erase(Name(1:end),'.mdm');
