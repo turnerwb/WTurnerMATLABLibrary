@@ -9,6 +9,11 @@ function MassDeembedS2Ps(BaseFolder,open,short)
     for i=1:length(filelist)
         tmpfile = fullfile(filelist(i).folder,filelist(i).name);
         tmpdeembed = deembed(tmpfile,open,short);
+        if(isnan(tmpdeembed.Parameters(1,1,1)))
+            str = fprintf("Data is NaN after deembedding for %s \n" + ...
+                "Outputting placeholder file of perfect open\n",tmpfile);
+            tmpdeembed = sparameters(ones(size(open.Parameters)),open.Frequencies);
+        end
         rfwrite(tmpdeembed,fullfile(BaseFolder,'DeembeddedData',filelist(i).name));
     end
     disp(strcat('Files Outputted To:',fullfile(BaseFolder,'DeembeddedData')))
